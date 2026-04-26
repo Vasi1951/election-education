@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Election Process Education — An interactive AI-powered platform that helps citizens understand the democratic election process, timelines, voter registration, and civic participation.">
+  <meta name="theme-color" content="#0a0f1a">
+  <title>ElectEd — Election Process Education Platform</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PLACEHOLDER');
+  </script>
+</head>
+<body>
+  <!-- Skip Link (Accessibility) -->
+  <a href="#main-content" class="skip-link" id="skip-link">Skip to main content</a>
+
+  <!-- Navigation -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar__logo">
+      <span class="navbar__logo-icon" aria-hidden="true">🗳️</span>
+      <span class="navbar__logo-text">Elect<span>Ed</span></span>
+    </div>
+    <button class="navbar__menu-btn" id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">☰</button>
+    <div class="navbar__nav" id="nav-links" role="menubar">
+      <a href="#hero" class="navbar__link navbar__link--active" role="menuitem">Home</a>
+      <a href="#how-it-works" class="navbar__link" role="menuitem">How It Works</a>
+      <a href="#timeline" class="navbar__link" role="menuitem">Timeline</a>
+      <a href="#learn" class="navbar__link" role="menuitem">Learn</a>
+      <a href="#assistant" class="navbar__link" role="menuitem">AI Assistant</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main id="main-content">
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero__bg-pattern" aria-hidden="true"></div>
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="hero__content">
+        <span class="hero__badge">🏛️ Powered by Google Gemini AI</span>
+        <h1 class="hero__title" id="hero-title">
+          Understand Your<br>
+          <span class="hero__title-highlight">Democratic Rights</span>
+        </h1>
+        <p class="hero__subtitle">
+          An interactive AI-powered platform that guides you through the entire election process — from voter registration to results, with clear timelines and step-by-step education.
+        </p>
+        <div class="hero__actions">
+          <a href="#assistant" class="btn btn--primary btn--lg" id="hero-cta-chat">💬 Ask the AI Assistant</a>
+          <a href="#how-it-works" class="btn btn--outline btn--lg" id="hero-cta-learn">📖 Learn the Process</a>
+        </div>
+        <div class="hero__stats">
+          <div class="hero__stat">
+            <div class="hero__stat-value" id="stat-phases">7</div>
+            <div class="hero__stat-label">Election Phases</div>
+          </div>
+          <div class="hero__stat">
+            <div class="hero__stat-value" id="stat-topics">15+</div>
+            <div class="hero__stat-label">Topics Covered</div>
+          </div>
+          <div class="hero__stat">
+            <div class="hero__stat-value" id="stat-ai">AI</div>
+            <div class="hero__stat-label">Powered Assistant</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section section--alt" id="how-it-works" aria-labelledby="how-title">
+      <div class="container">
+        <header class="section__header">
+          <span class="section__badge">📋 Overview</span>
+          <h2 class="section__title" id="how-title">How Elections Work</h2>
+          <p class="section__subtitle">Understanding the democratic process is the first step to meaningful civic participation.</p>
+        </header>
+        <div class="cards-grid animate-on-scroll stagger-children" id="how-cards">
+          <article class="card" id="card-registration">
+            <span class="card__number" aria-hidden="true">01</span>
+            <div class="card__icon" aria-hidden="true">📝</div>
+            <h3 class="card__title">Voter Registration</h3>
+            <p class="card__text">Every eligible citizen must register as a voter. Learn about eligibility criteria, required documents, and how to check your registration status online.</p>
+          </article>
+          <article class="card" id="card-nomination">
+            <span class="card__number" aria-hidden="true">02</span>
+            <div class="card__icon" aria-hidden="true">🎯</div>
+            <h3 class="card__title">Candidate Nomination</h3>
+            <p class="card__text">Candidates file nominations, submit affidavits, and undergo scrutiny. Understand the nomination process, deposits, and eligibility requirements.</p>
+          </article>
+          <article class="card" id="card-campaigning">
+            <span class="card__number" aria-hidden="true">03</span>
+            <div class="card__icon" aria-hidden="true">📢</div>
+            <h3 class="card__title">Campaign Period</h3>
+            <p class="card__text">Candidates campaign to share their vision. Learn about campaign regulations, the Model Code of Conduct, spending limits, and media guidelines.</p>
+          </article>
+          <article class="card" id="card-voting">
+            <span class="card__number" aria-hidden="true">04</span>
+            <div class="card__icon" aria-hidden="true">🗳️</div>
+            <h3 class="card__title">Polling Day</h3>
+            <p class="card__text">The actual voting process using EVMs and VVPAT machines. Understand polling booth setup, voter verification, and how your vote is recorded securely.</p>
+          </article>
+          <article class="card" id="card-counting">
+            <span class="card__number" aria-hidden="true">05</span>
+            <div class="card__icon" aria-hidden="true">📊</div>
+            <h3 class="card__title">Vote Counting</h3>
+            <p class="card__text">After polling, votes are counted under strict supervision. Learn about the counting process, observers, and result declaration procedures.</p>
+          </article>
+          <article class="card" id="card-results">
+            <span class="card__number" aria-hidden="true">06</span>
+            <div class="card__icon" aria-hidden="true">🏆</div>
+            <h3 class="card__title">Results & Formation</h3>
+            <p class="card__text">Results are declared, and the government formation process begins. Understand majority requirements, coalition dynamics, and oath ceremonies.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Election Timeline -->
+    <section class="section" id="timeline" aria-labelledby="timeline-title">
+      <div class="container">
+        <header class="section__header">
+          <span class="section__badge">📅 Timeline</span>
+          <h2 class="section__title" id="timeline-title">Election Timeline</h2>
+          <p class="section__subtitle">A typical general election follows this structured timeline from announcement to government formation.</p>
+        </header>
+        <div class="timeline animate-on-scroll" id="election-timeline" role="list" aria-label="Election timeline phases">
+          <div class="timeline__item" role="listitem">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__phase">Phase 1 — Announcement</div>
+            <h3 class="timeline__title">Election Commission Announcement</h3>
+            <p class="timeline__text">The Election Commission announces election dates, schedules, and the Model Code of Conduct comes into immediate effect. Political parties begin preparations.</p>
+          </div>
+          <div class="timeline__item" role="listitem">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__phase">Phase 2 — Nominations</div>
+            <h3 class="timeline__title">Filing of Nominations</h3>
+            <p class="timeline__text">Candidates file nomination papers with required documents and security deposits. Scrutiny of nominations follows, with a window for withdrawal.</p>
+          </div>
+          <div class="timeline__item" role="listitem">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__phase">Phase 3 — Campaigning</div>
+            <h3 class="timeline__title">Campaign & Outreach</h3>
+            <p class="timeline__text">Candidates campaign through rallies, door-to-door visits, and media. Campaigning must stop 48 hours before polling ("silence period").</p>
+          </div>
+          <div class="timeline__item" role="listitem">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__phase">Phase 4 — Polling</div>
+            <h3 class="timeline__title">Voting Day</h3>
+            <p class="timeline__text">Voters cast their ballots at designated polling stations using Electronic Voting Machines (EVMs). VVPAT allows voters to verify their choice.</p>
+          </div>
+          <div class="timeline__item" role="listitem">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__phase">Phase 5 — Counting</div>
+            <h3 class="timeline__title">Vote Counting & Results</h3>
+            <p class="timeline__text">Votes are counted at designated centers with representatives from all parties present. Results are declared constituency by constituency.</p>
+          </div>
+          <div class="timeline__item" role="listitem">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__phase">Phase 6 — Formation</div>
+            <h3 class="timeline__title">Government Formation</h3>
+            <p class="timeline__text">The party or coalition with majority is invited to form the government. The leader takes oath as the head of government, and the cabinet is sworn in.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Learn More — Tabs -->
+    <section class="section section--alt" id="learn" aria-labelledby="learn-title">
+      <div class="container">
+        <header class="section__header">
+          <span class="section__badge">📚 Deep Dive</span>
+          <h2 class="section__title" id="learn-title">Learn More</h2>
+          <p class="section__subtitle">Explore detailed information about different aspects of the electoral process.</p>
+        </header>
+        <div class="tabs" id="info-tabs">
+          <div class="tabs__header" role="tablist" aria-label="Election topics">
+            <button class="tabs__btn tabs__btn--active" role="tab" id="tab-rights" aria-controls="panel-rights" aria-selected="true">Voter Rights</button>
+            <button class="tabs__btn" role="tab" id="tab-evm" aria-controls="panel-evm" aria-selected="false">EVM & VVPAT</button>
+            <button class="tabs__btn" role="tab" id="tab-types" aria-controls="panel-types" aria-selected="false">Election Types</button>
+            <button class="tabs__btn" role="tab" id="tab-code" aria-controls="panel-code" aria-selected="false">Code of Conduct</button>
+          </div>
+          <div class="tabs__panel tabs__panel--active" role="tabpanel" id="panel-rights" aria-labelledby="tab-rights">
+            <div class="tabs__content">
+              <h3>Your Rights as a Voter</h3>
+              <p>Every citizen in a democracy has fundamental rights related to the electoral process. Understanding these rights empowers you to participate fully.</p>
+              <ul>
+                <li><strong>Right to Vote:</strong> Every citizen aged 18+ has the right to vote regardless of gender, caste, religion, or economic status.</li>
+                <li><strong>Right to Information:</strong> You can access candidate affidavits, criminal records, assets, and educational qualifications.</li>
+                <li><strong>Right to Secret Ballot:</strong> Your vote is completely secret. No one can force you to reveal whom you voted for.</li>
+                <li><strong>Right to Complain:</strong> You can file complaints about electoral malpractice with the Election Commission.</li>
+                <li><strong>NOTA Option:</strong> You can choose "None of the Above" if no candidate meets your expectations.</li>
+                <li><strong>Accessibility:</strong> Polling stations must be accessible to persons with disabilities, with special provisions for assisted voting.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tabs__panel" role="tabpanel" id="panel-evm" aria-labelledby="tab-evm">
+            <div class="tabs__content">
+              <h3>Electronic Voting Machines & VVPAT</h3>
+              <p>Modern elections use technology to ensure accuracy and efficiency while maintaining the integrity of the voting process.</p>
+              <ul>
+                <li><strong>EVM (Electronic Voting Machine):</strong> A portable, battery-operated device that records votes electronically with a simple button press.</li>
+                <li><strong>VVPAT (Voter Verifiable Paper Audit Trail):</strong> Prints a paper slip showing your vote, visible for 7 seconds for verification.</li>
+                <li><strong>Tamper-Proof Design:</strong> EVMs are standalone devices, not connected to any network. They use one-time programmable chips.</li>
+                <li><strong>Randomization:</strong> EVMs are randomly assigned to polling stations through multiple rounds of randomization.</li>
+                <li><strong>Testing:</strong> First Level Checking (FLC) and mock polls are conducted before actual elections to verify functionality.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tabs__panel" role="tabpanel" id="panel-types" aria-labelledby="tab-types">
+            <div class="tabs__content">
+              <h3>Types of Elections</h3>
+              <p>Democratic nations conduct various types of elections at different levels of governance.</p>
+              <ul>
+                <li><strong>General Elections:</strong> Held to elect members to the national parliament/legislature. Typically every 5 years.</li>
+                <li><strong>State Elections:</strong> Conducted to elect representatives to state/provincial legislatures.</li>
+                <li><strong>Local Body Elections:</strong> Municipal corporations, city councils, panchayats — governing your local area.</li>
+                <li><strong>By-Elections:</strong> Held when a seat becomes vacant due to resignation, death, or disqualification of a member.</li>
+                <li><strong>Presidential Elections:</strong> In some democracies, the head of state is directly elected by citizens.</li>
+                <li><strong>Referendums:</strong> Direct vote by citizens on specific policy issues or constitutional amendments.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tabs__panel" role="tabpanel" id="panel-code" aria-labelledby="tab-code">
+            <div class="tabs__content">
+              <h3>Model Code of Conduct</h3>
+              <p>The Model Code of Conduct is a set of guidelines for political parties and candidates during elections to ensure free and fair elections.</p>
+              <ul>
+                <li><strong>When Active:</strong> Comes into effect from the date of election announcement until results are declared.</li>
+                <li><strong>Government Restrictions:</strong> Ruling party cannot announce new policies, projects, or grants during this period.</li>
+                <li><strong>Campaign Rules:</strong> No appeals to caste or religious sentiments. No use of government machinery for campaigning.</li>
+                <li><strong>Spending Limits:</strong> Candidates must stay within prescribed expenditure limits and maintain accounts.</li>
+                <li><strong>Silence Period:</strong> No campaigning allowed 48 hours before polling to give voters time for reflection.</li>
+                <li><strong>Media Guidelines:</strong> Exit polls cannot be broadcast until all phases of voting are complete.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Assistant Section -->
+    <section class="section" id="assistant" aria-labelledby="assistant-title">
+      <div class="container">
+        <header class="section__header">
+          <span class="section__badge">🤖 AI-Powered</span>
+          <h2 class="section__title" id="assistant-title">Election AI Assistant</h2>
+          <p class="section__subtitle">Ask anything about elections, voting, and civic participation. Powered by Google Gemini AI.</p>
+        </header>
+
+        <!-- API Key Setup -->
+        <div class="api-setup" id="api-setup">
+          <h3 class="api-setup__title">🔑 Connect Google Gemini</h3>
+          <p class="api-setup__text">Enter your Google Gemini API key to activate the AI assistant. Get your free key from <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio</a>.</p>
+          <div class="api-setup__form">
+            <label for="api-key-input" class="sr-only">Gemini API Key</label>
+            <input type="password" class="api-setup__input" id="api-key-input" placeholder="Enter your Gemini API key..." autocomplete="off" aria-describedby="api-status">
+            <button class="btn btn--primary" id="api-key-save" type="button">Connect</button>
+          </div>
+          <div class="api-setup__status" id="api-status" aria-live="polite"></div>
+        </div>
+
+        <!-- Chat Widget -->
+        <div class="chat" id="chat-widget">
+          <div class="chat__container">
+            <div class="chat__header">
+              <div class="chat__header-dot" aria-hidden="true"></div>
+              <div>
+                <div class="chat__header-title">ElectEd AI Assistant</div>
+                <div class="chat__header-subtitle">Ask about elections, voting, or civic participation</div>
+              </div>
+            </div>
+            <div class="quick-questions" id="quick-questions" aria-label="Quick question suggestions">
+              <button class="quick-questions__btn" type="button" data-question="How do I register to vote?">How to register?</button>
+              <button class="quick-questions__btn" type="button" data-question="What is an EVM and how does it work?">What is an EVM?</button>
+              <button class="quick-questions__btn" type="button" data-question="What are the different phases of a general election?">Election phases</button>
+              <button class="quick-questions__btn" type="button" data-question="What is the Model Code of Conduct?">Code of Conduct</button>
+              <button class="quick-questions__btn" type="button" data-question="What is NOTA and when can I use it?">What is NOTA?</button>
+              <button class="quick-questions__btn" type="button" data-question="What documents do I need to vote?">Documents needed</button>
+            </div>
+            <div class="chat__messages" id="chat-messages" role="log" aria-label="Chat messages" aria-live="polite">
+              <div class="chat__message chat__message--bot">
+                👋 Welcome! I'm your Election Process Education assistant. Ask me anything about elections, voter registration, timelines, or civic participation. I'm here to help you understand democracy better!
+              </div>
+            </div>
+            <div class="chat__input-area">
+              <label for="chat-input" class="sr-only">Type your question about elections</label>
+              <textarea class="chat__input" id="chat-input" placeholder="Ask about elections, voting, or civic rights..." rows="1" aria-label="Chat message input"></textarea>
+              <button class="chat__send" id="chat-send" type="button" aria-label="Send message" disabled>➤</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <nav class="footer__links" aria-label="Footer navigation">
+      <a href="#how-it-works" class="footer__link">How It Works</a>
+      <a href="#timeline" class="footer__link">Timeline</a>
+      <a href="#learn" class="footer__link">Learn</a>
+      <a href="#assistant" class="footer__link">AI Assistant</a>
+    </nav>
+    <p class="footer__text">
+      © 2026 ElectEd — Election Process Education. Built with Google Gemini AI.
+      <br>An educational tool to promote civic awareness and democratic participation.
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/tabs.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

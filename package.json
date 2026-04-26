@@ -1,0 +1,17 @@
+{
+  "name": "election-education",
+  "version": "1.0.0",
+  "description": "Election Process Education — An interactive platform that helps users understand the election process, timelines, and steps through an AI-powered assistant using Google Gemini.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node public/js/tests.js"
+  },
+  "keywords": ["election", "education", "civic", "democracy", "AI", "gemini", "google"],
+  "author": "Mamidi Vashisht",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
