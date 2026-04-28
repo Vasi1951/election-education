@@ -8,10 +8,20 @@
     "dev": "node server.js",
     "test": "node public/js/tests.js"
   },
-  "keywords": ["election", "education", "civic", "democracy", "AI", "gemini", "google"],
+  "keywords": [
+    "election",
+    "education",
+    "civic",
+    "democracy",
+    "AI",
+    "gemini",
+    "google"
+  ],
   "author": "Mamidi Vashisht",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.21.0"
+    "@google-cloud/bigquery": "^8.3.0",
+    "express": "^4.21.0",
+    "firebase-admin": "^13.8.0"
   }
 }

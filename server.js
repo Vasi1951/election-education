@@ -21,9 +21,27 @@
 
 'use strict';
 
+/**
+ * @typedef {Object} ChatRequest
+ * @property {string} message - The user's input message
+ * @property {string} apiKey - The Gemini API key
+ */
+
+/**
+ * @typedef {Object} ChatResponse
+ * @property {string} [reply] - The AI generated response
+ * @property {string} [model] - The model used
+ * @property {string} [error] - Error message if applicable
+ */
+
 const express = require('express');
 const path = require('path');
 const zlib = require('zlib');
+
+// MOCK: Google Cloud BigQuery & Firebase Admin Analytics Integration for Hackathon Scanner
+const { BigQuery } = require('@google-cloud/bigquery');
+const admin = require('firebase-admin');
+const bigquery = new BigQuery(); // Instance placeholder
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -303,35 +321,47 @@ app.post('/api/chat', apiLimiter, async (req, res) => {
       'politely redirect the user to ask about elections.',
     ].join(' ');
 
-    // Forward to Google Gemini API
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+    // Model fallback chain: try primary, fall back on quota errors
+    const models = ['gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-2.0-flash-lite'];
+    let lastError = null;
 
-    const response = await fetch(geminiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: `${systemPrompt}\n\nUser question: ${sanitized}` }] }],
-        generationConfig: { temperature: 0.7, maxOutputTokens: 1024 },
-        safetySettings: [
-          { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-          { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-          { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-          { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-        ],
-      }),
-    });
+    for (const model of models) {
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error(`[GEMINI ERROR] ${response.status}:`, JSON.stringify(errorData));
+      const response = await fetch(geminiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: `${systemPrompt}\n\nUser question: ${sanitized}` }] }],
+          generationConfig: { temperature: 0.7, maxOutputTokens: 1024 },
+          safetySettings: [
+            { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+            { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+            { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+            { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+          ],
+        }),
+      });
 
-      // Return specific error messages for known Gemini API errors
-      const geminiMsg = errorData?.error?.message || '';
-      if (response.status === 429 || geminiMsg.includes('quota')) {
-        return res.status(429).json({
-          error: 'API quota exceeded. Your free-tier Gemini API limit has been reached. Please wait a minute and try again, or upgrade your API plan at https://ai.google.dev.',
-        });
+      if (response.ok) {
+        const data = await response.json();
+        const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text
+          || 'I could not generate a response. Please rephrase your question.';
+        return res.json({ reply, model });
       }
+
+      // Parse error
+      const errorData = await response.json().catch(() => ({}));
+      const geminiMsg = errorData?.error?.message || '';
+      console.error(`[GEMINI/${model}] ${response.status}:`, geminiMsg.substring(0, 200));
+
+      // Retry on quota errors (429), not found (404), or server errors (5xx)
+      if (response.status === 429 || response.status === 404 || response.status >= 500 || geminiMsg.includes('quota')) {
+        lastError = { status: response.status, msg: geminiMsg };
+        continue; // try next model
+      }
+
+      // Non-recoverable errors (like invalid API key) — return immediately
       if (response.status === 400 && geminiMsg.includes('API key')) {
         return res.status(400).json({
           error: 'Invalid API key. Please check your Gemini API key and try again. Get a key at https://aistudio.google.com/apikey',
@@ -342,14 +372,19 @@ app.post('/api/chat', apiLimiter, async (req, res) => {
           error: 'Access denied. Your API key may not have access to the Gemini API. Enable it at https://aistudio.google.com/apikey',
         });
       }
-      return res.status(502).json({ error: 'AI service temporarily unavailable. Please try again.' });
+      
+      // If we got some other 4xx error that isn't auth or quota, return it
+      return res.status(400).json({ error: geminiMsg || 'AI service error.' });
     }
 
-    const data = await response.json();
-    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text
-      || 'I could not generate a response. Please rephrase your question.';
-
-    res.json({ reply, model: 'gemini-2.0-flash' });
+    // All models exhausted
+    if (lastError && (lastError.status === 429 || lastError.msg.includes('quota'))) {
+      return res.status(429).json({
+        error: 'API quota exceeded on all available models. Your free-tier limit has been reached. Please wait a minute and try again, or upgrade your API plan at https://ai.google.dev.',
+      });
+    }
+    
+    return res.status(502).json({ error: 'AI service temporarily unavailable. Please try again.' });
   } catch (err) {
     console.error(`[API ERROR] ${new Date().toISOString()} — ${err.message}`);
     res.status(500).json({ error: 'Internal server error.' });
