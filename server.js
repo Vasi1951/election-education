@@ -416,29 +416,45 @@ app.get('*', (req, res) => {
 });
 
 /* ═══════════════════════════════════════════════
- *  ERROR HANDLING
+ *  GLOBAL ERROR HANDLING
  * ═══════════════════════════════════════════════ */
 
-/** Global error handler — catches unhandled errors safely */
-app.use((err, req, res, _next) => {
-  console.error(`[ERROR] ${new Date().toISOString()} — ${err.message}`);
-  res.status(err.status || 500).json({
-    error: 'Internal server error',
-    ...(process.env.NODE_ENV !== 'production' && { details: err.message }),
+/**
+ * Standardized global error handling middleware.
+ * Catches unhandled exceptions and returns a structured JSON response.
+ *
+ * @param {Error} err - The error object
+ * @param {import('express').Request} req - Express request object
+ * @param {import('express').Response} res - Express response object
+ * @param {import('express').NextFunction} next - Express next function
+ */
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  console.error(`[SERVER ERROR] ${new Date().toISOString()} — ${err.stack}`);
+  const status = err.status || 500;
+  res.status(status).json({
+    error: {
+      message: process.env.NODE_ENV === 'production' ? 'Internal Server Error' : err.message,
+      status: status
+    }
   });
 });
 
 /* ═══════════════════════════════════════════════
- *  SERVER START
+ *  SERVER INITIALIZATION
  * ═══════════════════════════════════════════════ */
 
+// Only start the server if this file is run directly (not imported via tests)
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(`🗳️  Election Education is running at http://localhost:${PORT}`);
+    console.log(`\n🗳️  Election Education is running at http://localhost:${PORT}`);
     console.log(`   Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`   Health check: http://localhost:${PORT}/healthz`);
+    console.log(`   Health check: http://localhost:${PORT}/healthz\n`);
   });
 }
 
-/* ─── Export for testing ─── */
+/**
+ * Export app for testing purposes
+ * @exports app
+ */
 module.exports = { app, sanitizeInput };
