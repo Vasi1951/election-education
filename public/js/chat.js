@@ -118,6 +118,11 @@ const ChatModule = (() => {
     } catch (err) {
       console.error('[Chat Error]', err.message);
 
+      // If the error message came from the server, show it directly
+      if (err.message && !err.message.startsWith('Failed to fetch') && !err.message.startsWith('NetworkError')) {
+        return `⚠️ ${err.message}`;
+      }
+
       // Fallback: try local data search
       const localResults = ElectionData.search(message);
       if (localResults.length > 0) {
@@ -130,7 +135,7 @@ const ChatModule = (() => {
         }
       }
 
-      return 'I\'m having trouble connecting to the AI service right now. Please check your API key and try again. You can also browse the information sections above for quick answers.';
+      return 'I\'m having trouble connecting to the AI service right now. Please check your API key and internet connection, then try again.';
     }
   }
 

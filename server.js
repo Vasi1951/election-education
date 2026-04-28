@@ -324,6 +324,24 @@ app.post('/api/chat', apiLimiter, async (req, res) => {
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       console.error(`[GEMINI ERROR] ${response.status}:`, JSON.stringify(errorData));
+
+      // Return specific error messages for known Gemini API errors
+      const geminiMsg = errorData?.error?.message || '';
+      if (response.status === 429 || geminiMsg.includes('quota')) {
+        return res.status(429).json({
+          error: 'API quota exceeded. Your free-tier Gemini API limit has been reached. Please wait a minute and try again, or upgrade your API plan at https://ai.google.dev.',
+        });
+      }
+      if (response.status === 400 && geminiMsg.includes('API key')) {
+        return res.status(400).json({
+          error: 'Invalid API key. Please check your Gemini API key and try again. Get a key at https://aistudio.google.com/apikey',
+        });
+      }
+      if (response.status === 403) {
+        return res.status(403).json({
+          error: 'Access denied. Your API key may not have access to the Gemini API. Enable it at https://aistudio.google.com/apikey',
+        });
+      }
       return res.status(502).json({ error: 'AI service temporarily unavailable. Please try again.' });
     }
 
